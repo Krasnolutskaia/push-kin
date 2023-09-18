@@ -1,2 +1,2 @@
 # push-kin
- Functions for work with strings
+Work with strings
