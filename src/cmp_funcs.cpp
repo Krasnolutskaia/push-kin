@@ -10,7 +10,7 @@ int compare_strs(const void * str1, const void * str2)
 }
 
 
-int find_min(void *data, int count, int size, int (*comp)(const void *, const void *))
+int find_min_index(void *data, int count, int size, int (*comp)(const void *, const void *))
 {
     int min_index = 0;
     for (int i = 1; i < count; i++)
@@ -27,6 +27,12 @@ int find_min(void *data, int count, int size, int (*comp)(const void *, const vo
 static void swap(void* v1, void* v2, int size)
 {
     char * buffer = (char *) calloc(size, sizeof(char));
+    if (buffer == NULL)
+    {
+        printf("no memory\n");
+        free(buffer);
+        exit(EXIT_FAILURE);
+    }
 
     memcpy(buffer, v1, size);
     memcpy(v1, v2, size);
@@ -38,6 +44,6 @@ void selection_sort(void *data, int count, int size, int (*comp)(const void *, c
 {
     for (int i = 0; i < count; i++)
     {
-        swap(data + size * i, data + size * (find_min(data + i * size, count - i, size, comp) + i), size);
+        swap(data + size * i, data + size * (find_min_index(data + i * size, count - i, size, comp) + i), size);
     }
 }

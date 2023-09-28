@@ -67,6 +67,7 @@ void free_text(Text * text)
         text->data[i] = nullptr;
     }
     free(text->data);
+    text->nlines = 0;
 }
 
 
