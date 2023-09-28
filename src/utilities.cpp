@@ -26,7 +26,7 @@ void close_file(FILE* file)
 }
 
 
-long int get_filesize(const char *filename)
+int get_filesize(const char *filename)
 {
     struct stat statbuf;
 
@@ -52,19 +52,71 @@ char* create_buffer(int size)
 }
 
 
-void print_text(char** text, int nlines)
+void print_text(Text * text)
 {
-    for (int i = 0; i < nlines; ++i) {
-        printf("%s\n", text[i]);
+    for (int i = 0; i < text->nlines; i++) {
+        printf("%s\n", text->data[i]);
     }
 }
 
 
-void free_text(char** text, int nlines)
+void free_text(Text * text)
 {
-    for (int i = 0; i < nlines; ++i) {
-        free(text[i]);
-        text[i] = nullptr;
+    for (int i = 0; i < text->nlines; i++) {
+        free(text->data[i]);
+        text->data[i] = nullptr;
     }
-    free(text);
+    free(text->data);
+}
+
+
+Text read_file(const char *filename)
+{
+    int filesize = get_filesize(filename);
+    printf("%d\n", filesize);
+
+    char *buffer = create_buffer(filesize);
+
+    FILE *file = fopen(filename, "r"); 
+    fread(buffer, sizeof(char), filesize, file);
+    close_file(file);
+
+    buffer[filesize] = '\n'; 
+
+    int nlines = 0;
+
+    for (int i = 0; i <= filesize; i++)
+    {
+        if (buffer[i] == '\n')
+        {
+            nlines++;
+            buffer[i] = '\0';
+        }
+    }
+
+    char** data = (char **) calloc(nlines, sizeof(char *));
+    if (data == NULL)
+    {
+        printf("no memory\n");
+        free(buffer);
+        free(data);
+        exit(EXIT_FAILURE);
+    }
+
+    data[0] = buffer;
+    for (int i = 1, j = 1; i < filesize && j < nlines; i++) 
+    {
+        if (buffer[i] == '\0') 
+        {
+            data[j] = strdup(buffer + i + 1);
+            j++;
+        }
+    }
+    
+    Text text = {
+        data,
+        nlines
+    };
+
+    return text;
 }
