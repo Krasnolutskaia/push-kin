@@ -13,9 +13,9 @@ int main()
     char str[] = "C:\\Users\\eliza\\VSCodeProjects\\push-kin\\src\\file.txt";
     Text text = read_file(str);
 
-    printf("aaa %d\n", find_min_index(text.data, text.nlines, sizeof(char *), compare_strs));
+    printf("aaa %d\n", find_min_index(text.data, text.nlines, sizeof(char *), str_cmp));
 
-    selection_sort(text.data, text.nlines, sizeof(char *), compare_strs);
+    selection_sort(text.data, text.nlines, sizeof(char *), reverse_str_cmp_letters);
 
     print_text(&text);
 
