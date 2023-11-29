@@ -1,5 +1,5 @@
-#ifndef UTILITIES_H_
-#define UTILITIES_H_
+#ifndef PUSHKIN_H_
+#define PUSHKIN_H_
 
 struct Text
 {

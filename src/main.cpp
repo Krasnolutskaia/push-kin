@@ -5,7 +5,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "cmp_funcs.h"
-#include "utilities.h"
+#include "pushkin.h"
 
 
 int main()
